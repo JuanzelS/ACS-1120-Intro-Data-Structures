@@ -1,5 +1,4 @@
 class Node(object):
-
     def __init__(self, data):
         """Initialize this node with the given data."""
         self.data = data
@@ -11,7 +10,6 @@ class Node(object):
 
 
 class LinkedList:
-
     def __init__(self, items=None):
         """Initialize this linked list and append the given items, if any."""
         self.head = None  # First node
@@ -80,15 +78,13 @@ class LinkedList:
             self.head = new_node  # O(1) to update the head
 
     def find(self, matcher):
-        """Return an item from this linked list if it is present.
-        Best case running time: O(1) if the first node matches the matcher.
-        Worst case running time: O(n) if the item is at the end or not present."""
-        node = self.head  # O(1) to start from the head
-        while node is not None:  # O(n) loop
-            if node.data == matcher:  # O(1) to check if the node data matches
-                return node.data  # O(1) to return the found item
-            node = node.next  # O(1) to move to the next node
-        return None  # O(1) to return None if not found
+        """Return the first item from this linked list that satisfies the matcher function."""
+        node = self.head
+        while node is not None:
+            if matcher(node.data):  # Apply the matcher function to the data
+                return node.data
+            node = node.next
+        return None  # Return None if no match is found
 
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError.
@@ -108,6 +104,16 @@ class LinkedList:
             prev_node = node  # O(1) to update previous node
             node = node.next  # O(1) to move to the next node
         raise ValueError(f'Item not found: {item}')  # O(1) to raise an error if not found
+
+    def replace(self, old_item, new_item):
+        """Replace the first occurrence of old_item with new_item."""
+        node = self.head
+        while node is not None:
+            if node.data == old_item:
+                node.data = new_item  # Replace the data
+                return  # Return after replacing the first occurrence
+            node = node.next
+        print(f'{old_item} not found in the list')
 
 
 def test_linked_list():
@@ -136,6 +142,10 @@ def test_linked_list():
         print('tail: {}'.format(ll.tail))
         print('length: {}'.format(ll.length()))
 
+    # Testing replace method
+    print('\nTesting replace:')
+    ll.replace('A', 'D')
+    print('After replace(A, D), list: {}'.format(ll))
 
 if __name__ == '__main__':
     test_linked_list()
