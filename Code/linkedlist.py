@@ -24,7 +24,7 @@ class LinkedList:
         ll_str = ""
         for item in self.items():
             ll_str += f'({item}) -> '
-        return ll_str
+        return ll_str.rstrip(' -> ')  # Remove the trailing ' -> '
 
     def items(self):
         """Return a list (dynamic array) of all items in this linked list.
