@@ -1,21 +1,23 @@
-"""Main script, uses other modules to generate sentences."""
-from flask import Flask
+import cleanup
+import tokens
+import word_count
+import sample
+import sentence
 
+from flask import Flask
 
 app = Flask(__name__)
 
-# TODO: Initialize your histogram, hash table, or markov chain here.
-# Any code placed here will run only once, when the server starts.
-
+# Initialize word histogram (or Markov chain) here
+words_list = ["one", "fish", "two", "fish", "red", "fish", "blue", "fish"]
+histogram = word_count.build_histogram(words_list)  # Example: Build histogram from sample words
 
 @app.route("/")
 def home():
-    """Route that returns a web page containing the generated text."""
-    return "<p>TODO: Return a word here!</p>"
-
+    """Route that returns a randomly generated word based on frequency weighting."""
+    random_word = sample.weighted_random_word(histogram)  # Get a weighted random word
+    return f"<p>Random Word: {random_word}</p>"
 
 if __name__ == "__main__":
-    """To run the Flask server, execute `python app.py` in your terminal.
-       To learn more about Flask's DEBUG mode, visit
-       https://flask.palletsprojects.com/en/2.0.x/server/#in-code"""
+    """To run the Flask server, execute `python app.py` in your terminal."""
     app.run(debug=True)
