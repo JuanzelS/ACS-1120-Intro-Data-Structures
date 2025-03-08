@@ -11,6 +11,17 @@ def random_word(words):
     """Returns a randomly selected word from the list."""
     return random.choice(words)
 
+def weighted_random_word(histogram):
+    """Returns a weighted random word based on frequency in histogram."""
+    total_weight = sum(histogram.values())
+    random_choice = random.randint(1, total_weight)
+    
+    cumulative_weight = 0
+    for word, weight in histogram.items():
+        cumulative_weight += weight
+        if cumulative_weight >= random_choice:
+            return word
+
 if __name__ == "__main__":
     # Check if a filename or words were provided in the command line
     if len(sys.argv) > 1:

@@ -1,23 +1,24 @@
 import requests
 
 DIFFBOT_API_URL = 'http://api.diffbot.com/v3/article'
-DIFFBOT_DEV_TOKEN = 'your_diffbot_dev_token'
+DIFFBOT_DEV_TOKEN = 'your_diffbot_dev_token'  # Replace this with your actual Diffbot API token
 
 def get_article(article_url):
     # Set request params for the API request
-    params = { 'token': DIFFBOT_DEV_TOKEN,
-               'url': article_url,
-               'discussion': 'false' }
+    params = {
+        'token': DIFFBOT_DEV_TOKEN,
+        'url': article_url,
+        'discussion': 'false'
+    }
 
     # Hit the Diffbot API
-    res = requests.get(DIFFBOT_API_URL, params)
-    
-    # Check if the request was successful
-    if res.status_code != 200:
-        print(f"Error fetching article: {res.status_code}")
-        print(res.text)  # Print the response for debugging
+    try:
+        res = requests.get(DIFFBOT_API_URL, params=params)  # Corrected way of passing params
+        res.raise_for_status()  # Raises an HTTPError if the status code is 4xx/5xx
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching article: {e}")
         return None
-
+    
     try:
         # Parse the response object
         res_obj = res.json()
