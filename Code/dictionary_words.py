@@ -1,23 +1,23 @@
 import random
 import sys
 
-def load_words(filepath="/usr/share/dict/words"):
-    """Reads the words file and returns a list of words."""
+def load_words(file_path="/usr/share/dict/words"):
+    """Read the words file and return a list of words."""
     try:
-        with open(filepath, "r") as file:
-            words = [line.strip() for line in file.readlines()]
+        with open(file_path, "r") as file:
+            words = file.read().splitlines()
         return words
     except FileNotFoundError:
         print("Error: Words file not found.")
         sys.exit(1)
 
 def generate_sentence(word_count, words):
-    """Generates a random sentence with the given number of words."""
-    selected_words = random.sample(words, word_count)
-    return " ".join(selected_words) + "."
+    """Generate a sentence with the given number of random words."""
+    sentence = " ".join(random.choices(words, k=word_count))
+    return sentence + "."
 
 def main():
-    """Main function to handle user input and generate a sentence."""
+    """Main function to parse input and generate a random sentence."""
     if len(sys.argv) != 2:
         print("Usage: python3 dictionary_words.py <number_of_words>")
         sys.exit(1)
@@ -27,7 +27,7 @@ def main():
         if word_count <= 0:
             raise ValueError
     except ValueError:
-        print("Error: Please enter a valid positive integer.")
+        print("Error: Please provide a positive integer for the number of words.")
         sys.exit(1)
     
     words = load_words()
